@@ -1,38 +1,14 @@
-// const http = require("http");
-import http, { request } from "http";
+import express from "express";
+import bookRouter from "./routes/booksRoute.js";
 
-let books = [
-  {
-    id: 1,
-    name: "HTML CSS",
-    price: 98,
-  },
-  {
-    id: 2,
-    name: "JS",
-    price: 200,
-  },
-];
+const PORT = 5000;
+const app = express();
 
-const reqHandler = (request, response) => {
-  response.statusCode = 200;
+app.listen(PORT, () => console.log(`Server up & running on PORT ${PORT}`));
+app.use(express.json());
 
-  let resObj = JSON.stringify(books);
-  if (request.url.includes("books")) {
-    response.end(resObj);
-  } else {
-    response.end("Welcome to NodeJS!");
-  }
-};
+// app.get("/books", (req, res, next) => {
+//   res.status(200).json(books);
+// });
 
-const server = http.createServer(reqHandler);
-
-server.listen(5000);
-
-/// REST API | SOAP
-
-// REST API - Request Methods / Action Verbs
-// GET - Fetch Data
-// POST - Creating Data / Sending Data
-// PUT & PATCH - Updating
-// DELETE - Deleting a Data
+app.use("/books", bookRouter);
