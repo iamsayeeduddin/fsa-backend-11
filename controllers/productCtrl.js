@@ -23,8 +23,31 @@ const getPaginatedProducts = async (req, res) => {
     const page = +req.params.page;
     const pageSize = +req.params.pageSize;
     const skip = (page - 1) * pageSize;
-    const products = await ProductModel.find().skip(skip).limit(pageSize);
-    res.status(200).json(products);
+    const sortDir = req?.query?.sortDir;
+    const sort = req?.query?.sort;
+    const search = req?.query?.search || "";
+
+    let sortObj = {};
+    sortObj[sort] = sortDir;
+
+    let filter = {};
+    if (search) {
+      filter = { $or: [{ name: { $regex: search, $options: "i" } }, { category: { $regex: search, $options: "i" } }] };
+    }
+
+    const products = await ProductModel.find(filter).sort(sortObj).skip(skip).limit(pageSize);
+    const totalRecords = await ProductModel.countDocuments(filter);
+    let response = {
+      metadata: {
+        page,
+        pageSize,
+        totalRecords,
+      },
+      success: true,
+      message: "Fetched Product Successfully!",
+      data: products,
+    };
+    res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: "Internal Server Error!" });
   }
