@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import { comparePassword } from "../utils/crypt.js";
+import { comparePassword, generateToken } from "../utils/crypt.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -61,6 +61,7 @@ export const login = async (req, res) => {
     if (user?._id && user?.isActive && user?.isEmailVerified) {
       const isPswdValid = await comparePassword(password, user.password);
       if (isPswdValid) {
+        let token = generateToken({ _id: user?._id, email: user?.email, name: user?.fullName, mobile: user?.phone });
         let response = {
           success: true,
           message: "Login Successfull!",
@@ -70,6 +71,7 @@ export const login = async (req, res) => {
             mobile: user?.phone,
             countryCode: user?.countryCode,
             email: user?.email,
+            token,
           },
         };
         res.status(200).json(response);
