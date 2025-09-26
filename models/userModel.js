@@ -12,6 +12,7 @@ const userSchema = new Schema(
     countryCode: { type: String },
     isActive: { type: Boolean, default: false },
     isEmailVerified: { type: Boolean, default: false },
+    role: { type: String, default: "USER", enum: ["USER", "ADMIN", "SUPERADMIN"] },
   },
   { timestamps: true }
 );

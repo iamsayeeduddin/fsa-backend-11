@@ -61,7 +61,7 @@ export const login = async (req, res) => {
     if (user?._id && user?.isActive && user?.isEmailVerified) {
       const isPswdValid = await comparePassword(password, user.password);
       if (isPswdValid) {
-        let token = generateToken({ _id: user?._id, email: user?.email, name: user?.fullName, mobile: user?.phone });
+        let token = generateToken({ _id: user?._id, email: user?.email, name: user?.fullName, mobile: user?.phone, role: user?.role });
         let response = {
           success: true,
           message: "Login Successfull!",
