@@ -11,7 +11,7 @@ app.listen(PORT, () => console.log(`Server up & running on PORT ${PORT}`));
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://localhost:27017/fsa-11", { autoIndex: true })
+  .connect(process.env.MONGO_DB_URL, { autoIndex: true })
   .then(() => console.log("DB Connected!"))
   .catch((err) => console.log(err));
 
