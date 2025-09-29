@@ -1,0 +1,7 @@
+GET /products/allProducts 200 2 - 36.988 ms
+GET /products/allProducts 200 2 - 28.303 ms
+GET /products/allProducts 200 2 - 24.591 ms
+GET /products/allProducts 200 2 - 23.523 ms
+GET /products/allProducts 200 2 - 26.021 ms
+POST /users/login 400 55 - 35.058 ms
+POST /users/login 400 55 - 41.612 ms

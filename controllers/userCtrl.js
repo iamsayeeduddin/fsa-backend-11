@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import { comparePassword, generateToken } from "../utils/crypt.js";
+import { appLogger } from "../utils/logger.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -56,6 +57,7 @@ export const deleteUser = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    appLogger.info("Inside Login Controller");
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user?._id && user?.isActive && user?.isEmailVerified) {
